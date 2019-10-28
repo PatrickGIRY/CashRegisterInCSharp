@@ -19,7 +19,7 @@ namespace CashRegister.Tests
     public void total_is_product_of_quantity_by_item_price()
     {
       var price = Price.ValueOf(1.20);
-      var quantity = 1;
+      var quantity = Quantity.ValueOf(1);
 
       var total = cashRegister.Total(price, quantity);
 

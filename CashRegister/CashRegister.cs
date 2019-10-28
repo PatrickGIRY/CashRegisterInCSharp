@@ -4,7 +4,7 @@ namespace CashRegister
 {
     public class CashRegister
     {
-      public Price Total(Price price, double quantity) 
+      public Price Total(Price price, Quantity quantity) 
       {
         return price * quantity;
       }

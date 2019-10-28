@@ -9,7 +9,7 @@ namespace CashRegister
 
     private Price(double value) { this.value = value; }
 
-    public static Price operator *(Price price, double quantity)
+    public static Price operator *(Price price, Quantity quantity)
     {
       return new Price(price.value * quantity);
     }
