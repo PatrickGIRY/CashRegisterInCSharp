@@ -12,8 +12,8 @@ namespace CashRegister.Tests
     public void Initialize()
     {
       priceQuery = new InmemoryCatalog(
-        new ItemReference("APPLE", 1.20),
-        new ItemReference("BANANA", 1.90)
+        ItemReference.AReference().WithItemCode("APPLE").WithUnitPrice(1.20).Build(),
+        ItemReference.AReference().WithItemCode("BANANA").WithUnitPrice(1.90).Build()
       );
     }
 
