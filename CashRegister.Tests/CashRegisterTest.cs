@@ -33,7 +33,7 @@ namespace CashRegister.Tests
       Check.That(total).IsEqualTo(Result.Found(Price.ValueOf(quantity * unitPrice)));
     }
 
-    public void total_not_found_when_item_rpice_not_found()
+    public void total_not_found_when_item_price_not_found()
     {
       var result = priceQuery.FindPrice("PEACH");
 
