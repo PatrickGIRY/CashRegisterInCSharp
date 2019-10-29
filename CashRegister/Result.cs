@@ -1,3 +1,4 @@
+using System;
 
 namespace CashRegister
 {
@@ -13,6 +14,8 @@ namespace CashRegister
       return new NotFoundCase(invalidItemCode);
     }
 
+    internal abstract Result Select(Func<Price, Price> f);
+
     private sealed class FoundCase : Result
     {
       private Price price;
@@ -20,6 +23,11 @@ namespace CashRegister
       internal FoundCase(Price price)
       {
         this.price = price;
+      }
+
+      internal override Result Select(Func<Price, Price> f)
+      {
+        return Found(f(this.price));
       }
 
       public override bool Equals(object obj)
@@ -50,6 +58,11 @@ namespace CashRegister
         this.invalidItemCode = invalidItemCode;
       }
 
+      internal override Result Select(Func<Price, Price> f)
+      {
+        return this;
+      }
+
       public override bool Equals(object obj)
       {
         if (this == obj) return true;
@@ -67,7 +80,6 @@ namespace CashRegister
       {
         return "NotFoundCase{ invalidItemCode=" + invalidItemCode + '}';
       }
-
     }
   }
 }

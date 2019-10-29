@@ -9,21 +9,37 @@ namespace CashRegister.Tests
   {
     private CashRegister cashRegister;
 
+    private IPriceQuery priceQuery;
+
     [TestInitialize]
     public void Initialize()
     {
+      priceQuery = new InmemoryCatalog(
+        ItemReference.AReference().WithItemCode("APPLE").WithUnitPrice(1.20).Build(),
+        ItemReference.AReference().WithItemCode("BANANA").WithUnitPrice(1.90).Build()
+      );
       cashRegister = new CashRegister();
     }
 
-    [TestMethod]
-    public void total_is_product_of_quantity_by_item_price()
+    [DataTestMethod]
+    [DataRow("APPLE", 1, 1.20)]
+    [DataRow("BANANA", 1, 1.90)]
+    public void total_is_product_of_quantity_by_item_price(string itemCode, double quantity, double unitPrice)
     {
-      var price = Price.ValueOf(1.20);
-      var quantity = Quantity.ValueOf(1);
+      var result = priceQuery.FindPrice(itemCode);
 
-      var total = cashRegister.Total(price, quantity);
+      var total = cashRegister.Total(result, Quantity.ValueOf(quantity));
 
-      Check.That(total).IsEqualTo(Price.ValueOf(1.20));
+      Check.That(total).IsEqualTo(Result.Found(Price.ValueOf(quantity * unitPrice)));
+    }
+
+    public void total_not_found_when_item_rpice_not_found()
+    {
+      var result = priceQuery.FindPrice("PEACH");
+
+      var total = cashRegister.Total(result, Quantity.ValueOf(1));
+
+      Check.That(total).IsEqualTo(Result.NotFound("PEACH"));
     }
   }
 }
