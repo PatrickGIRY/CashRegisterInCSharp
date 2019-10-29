@@ -8,16 +8,16 @@ namespace CashRegister
     public InmemoryCatalog(params ItemReference [] itemReferences) {
       this.itemReferences = itemReferences;
     }
-    Price IPriceQuery.findPrice(string soughtItemCode)
+    Result IPriceQuery.FindPrice(string soughtItemCode)
     {
       foreach(var itemReference in itemReferences)
       {
         if (itemReference.MatchSoughtItemCode(soughtItemCode))
         {
-          return itemReference.GetUnitPrice();
+          return Result.Found(itemReference.GetUnitPrice());
         }
       }
-      return null;
+      return Result.NotFound(soughtItemCode);
     }
   }
 }
