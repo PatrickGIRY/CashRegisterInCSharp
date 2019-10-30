@@ -12,8 +12,8 @@ namespace CashRegister
     public InmemoryCatalog(params ItemReference[] itemReferences)
     {
       this.unitPricesByItemCode = itemReferences.ToDictionary(
-        itemReference => itemReference.GetItemCode(), 
-        itemReference => itemReference.GetUnitPrice());
+        itemReference => itemReference.ItemCode, 
+        itemReference => itemReference.UnitPrice);
     }
     Result IPriceQuery.FindPrice(string soughtItemCode)
     {

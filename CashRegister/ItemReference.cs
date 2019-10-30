@@ -3,8 +3,8 @@ namespace CashRegister
 {
   public class ItemReference
   {
-    private readonly string itemCode;
-    private readonly Price unitPrice;
+    public string ItemCode { get; private set; }
+    public Price UnitPrice { get; private set; }
 
     public static Builder AReference()
     {
@@ -12,23 +12,8 @@ namespace CashRegister
     }
     private ItemReference(string itemCode, Price unitPrice)
     {
-      this.itemCode = itemCode;
-      this.unitPrice = unitPrice;
-    }
-
-    public bool MatchSoughtItemCode(string soughtItemCode)
-    {
-      return itemCode.Equals(soughtItemCode);
-    }
-
-    public string GetItemCode()
-    {
-      return this.itemCode;
-    }
-    
-    public Price GetUnitPrice()
-    {
-      return this.unitPrice;
+      this.ItemCode = itemCode;
+      this.UnitPrice = unitPrice;
     }
 
     public class Builder
