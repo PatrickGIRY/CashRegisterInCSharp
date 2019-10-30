@@ -21,6 +21,11 @@ namespace CashRegister
       return itemCode.Equals(soughtItemCode);
     }
 
+    public string GetItemCode()
+    {
+      return this.itemCode;
+    }
+    
     public Price GetUnitPrice()
     {
       return this.unitPrice;

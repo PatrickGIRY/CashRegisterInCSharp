@@ -1,25 +1,24 @@
 
-using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Collections;
 
 namespace CashRegister
 {
   public class InmemoryCatalog : IPriceQuery
   {
-    private readonly ItemReference[] itemReferences;
+    private readonly Dictionary<string, Price> unitPricesByItemCode;
+
 
     public InmemoryCatalog(params ItemReference[] itemReferences)
     {
-      this.itemReferences = itemReferences;
+      this.unitPricesByItemCode = itemReferences.ToDictionary(
+        itemReference => itemReference.GetItemCode(), 
+        itemReference => itemReference.GetUnitPrice());
     }
     Result IPriceQuery.FindPrice(string soughtItemCode)
     {
-      var result = itemReferences
-        .Where(itemReference => itemReference.MatchSoughtItemCode(soughtItemCode))
-        .Select(itemReference => Result.Found(itemReference.GetUnitPrice()))
-        .SingleOrDefault();
-      return result ?? Result.NotFound(soughtItemCode);
+      var price = unitPricesByItemCode.GetValueOrDefault(soughtItemCode);
+      return price != null ? Result.Found(price) : Result.NotFound(soughtItemCode);
     }
   }
 }
